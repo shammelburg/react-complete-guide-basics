@@ -1,23 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Expenses from "./components/expenses/Expenses";
+import NewExpense from "./components/new-expense/NewExpense";
+
+const DATA = [
+  {
+    id: 1,
+    date: new Date(2021, 5, 10),
+    price: 110.50,
+    title: 'DOGE Coin Investment'
+  },
+  {
+    id: 2,
+    date: new Date(2021, 6, 11),
+    price: 535.99,
+    title: 'LG Ultrawide Monitor'
+  },
+  {
+    id: 3,
+    date: new Date(2020, 9, 19),
+    price: 4000,
+    title: 'Omega Aqua Terra Watch 41mm'
+  }
+]
 
 function App() {
+  const [expenses, setExpenses] = useState(DATA)
+
+  const formSubmit = expense => {
+    expense.id = new Date().getTime()
+    setExpenses(prevState => {
+      return [...prevState, expense]
+    })
+  }
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <NewExpense onAddExpense={formSubmit} />
+      <Expenses expenses={expenses} />
     </div>
   );
 }
